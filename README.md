@@ -6,7 +6,7 @@ Sistema de cadastro e gerenciamento de livros (título, autor, categoria e statu
 
 1. Instale o XAMPP e inicie os módulos Apache e MySQL.
 2. **Importante:** copie esta pasta inteira para dentro de `htdocs` do XAMPP (ex: `C:\xampp\htdocs\catalogodelivros`) — o Apache só executa arquivos PHP que estejam dentro dessa pasta.
-3. Acesse `localhost/phpmyadmin`, crie um banco chamado `catalogo_livros` e rode `database/schema.sql` na aba SQL (já cria a tabela e insere livros de exemplo).
+3. Acesse `localhost/phpmyadmin`, crie um banco chamado `catalogodelivros` e rode `database/schema.sql` na aba SQL (já cria a tabela e insere livros de exemplo).
 4. Se usou outro nome de banco, ajuste `$dbname` em `config/database.php`.
 5. Acesse `localhost/catalogodelivros/index.php`.
 
