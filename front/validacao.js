@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (form) {
         form.addEventListener('submit', function (event) {
             const titulo = document.getElementById('titulo');
-            const autor = document.getElementById('autor');cc
+            const autor = document.getElementById('autor');
             let valido = true;
 
             [titulo, autor].forEach(function (campo) {

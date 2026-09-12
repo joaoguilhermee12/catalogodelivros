@@ -1,8 +1,33 @@
 
-<?php if (!empty($erro)): ?>
-    <p class="erro"><?= htmlspecialchars($erro) ?></p>
-<?php endif; ?>
+<?php
+$erro = '';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $titulo = trim($_POST['titulo'] ?? '');
+    $autor = trim($_POST['autor'] ?? '');
+    $categoria = trim($_POST['categoria'] ?? '');
+    $status = $_POST['status'] ?? 'Disponivel';
+
+    if (empty($titulo) || empty($autor)) {
+        $erro = "Título e autor são obrigatórios.";
+    } else {
+        include 'config/database.php';
+
+        $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM livros WHERE titulo = ? AND autor = ?");
+        $stmtCheck->execute([$titulo, $autor]);
+
+        if ($stmtCheck->fetchColumn() > 0) {
+            $erro = "Já existe um livro cadastrado com esse título e autor.";
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO livros (titulo, autor, categoria, status) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$titulo, $autor, $categoria, $status]);
+
+            header('Location: index.php');
+            exit;
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -18,30 +43,11 @@
     </header>
 
     <main>
-      <?php
-$erro = '';
+        <?php if (!empty($erro)): ?>
+            <p class="erro"><?= htmlspecialchars($erro) ?></p>
+        <?php endif; ?>
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $titulo = trim($_POST['titulo']);
-    $autor = trim($_POST['autor']);
-    $categoria = trim($_POST['categoria']);
-    $status = $_POST['status'];
-
-    if (empty($titulo) || empty($autor)) {
-        $erro = "Título e autor são obrigatórios.";
-    } else {
-        include 'config/database.php';
-
-        $stmt = $pdo->prepare("INSERT INTO livros (titulo, autor, categoria, status) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$titulo, $autor, $categoria, $status]);
-
-        header('Location: index.php');
-        exit;
-    }
-}
-?>
-
-        <form method="POST" action="criar.php">
+        <form method="POST" action="criar.php" id="form-livro">
             <label for="titulo">Título</label>
             <input type="text" id="titulo" name="titulo" required>
 

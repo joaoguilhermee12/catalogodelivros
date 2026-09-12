@@ -1,26 +1,34 @@
 <?php
 include 'config/database.php';
 $erro = '';
-$id = $_GET['id'] ?? $_POST['id'];
+$id = $_GET['id'] ?? $_POST['id'] ?? null;
 
 $stmt = $pdo->prepare("SELECT * FROM livros WHERE id = ?");
 $stmt->execute([$id]);
 $livro = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $titulo = trim($_POST['titulo']);
-    $autor = trim($_POST['autor']);
-    $categoria = trim($_POST['categoria']);
-    $status = $_POST['status'];
+    $titulo = trim($_POST['titulo'] ?? '');
+    $autor = trim($_POST['autor'] ?? '');
+    $categoria = trim($_POST['categoria'] ?? '');
+    $status = $_POST['status'] ?? 'Disponivel';
 
     if (empty($titulo) || empty($autor)) {
         $erro = "Título e autor são obrigatórios.";
         $livro = ['id' => $id, 'titulo' => $titulo, 'autor' => $autor, 'categoria' => $categoria, 'status' => $status];
     } else {
-        $stmt = $pdo->prepare("UPDATE livros SET titulo = ?, autor = ?, categoria = ?, status = ? WHERE id = ?");
-        $stmt->execute([$titulo, $autor, $categoria, $status, $id]);
-        header('Location: index.php');
-        exit;
+        $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM livros WHERE titulo = ? AND autor = ? AND id != ?");
+        $stmtCheck->execute([$titulo, $autor, $id]);
+
+        if ($stmtCheck->fetchColumn() > 0) {
+            $erro = "Já existe outro livro cadastrado com esse título e autor.";
+            $livro = ['id' => $id, 'titulo' => $titulo, 'autor' => $autor, 'categoria' => $categoria, 'status' => $status];
+        } else {
+            $stmt = $pdo->prepare("UPDATE livros SET titulo = ?, autor = ?, categoria = ?, status = ? WHERE id = ?");
+            $stmt->execute([$titulo, $autor, $categoria, $status, $id]);
+            header('Location: index.php');
+            exit;
+        }
     }
 }
 ?>
