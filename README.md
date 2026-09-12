@@ -24,4 +24,4 @@ Sistema de cadastro e gerenciamento de livros (título, autor, categoria e statu
 ## Observações
 
 - O CSS (estilização visual) deste projeto foi desenvolvido com apoio de uma IA.
-- Este é um CRUD simples de cadastro, como pedido no desafio — não foi implementada uma simulação real de empréstimo (quem pegou, prazo de devolução), apenas o cadastro com o campo de status (disponível/emprestado).
+- Este é um CRUD simples de cadastro, como pedido no desfio. Não foi implementada uma simulação real de empréstimo (quem pegou, prazo de devolução), apenas o cadastro com o campo de status (disponível/emprestado).
