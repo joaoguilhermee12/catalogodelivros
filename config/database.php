@@ -11,7 +11,7 @@ try {
     $pdo = new PDO($dsn, $usuario, $senha, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     ]);
-    echo "Conexão bem-sucedida!";
+    echo "Bem vindo ao Catálogo de Livros!";
 } catch (PDOException $e) {
     die("Erro na conexão: " . $e->getMessage());
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Livros</title>
-    <link rel="stylesheet" href="frontend/style.css">
+    <link rel="stylesheet" href="front/style.css">
 </head>
 <body>
     <header>
@@ -47,6 +47,6 @@
         </table>
     </main>
 
-    <script src="frontend/validacao.js"></script>
+    <script src="front/validacao.js"></script>
 </body>
 </html>

@@ -1,4 +1,7 @@
 
+<?php if (!empty($erro)): ?>
+    <p class="erro"><?= htmlspecialchars($erro) ?></p>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -6,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Novo Livro</title>
-    <link rel="stylesheet" href="frontend/style.css">
+    <link rel="stylesheet" href="front/style.css">
 </head>
 <body>
     <header>
@@ -29,15 +32,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         include 'config/database.php';
 
-        $stmt = $pdo->prepare("UPDATE livros SET titulo = ?, autor = ?, categoria = ?, status = ? WHERE id = ?");
-        $stmt->execute([$titulo, $autor, $categoria, $status, $_POST['id']]);
+        $stmt = $pdo->prepare("INSERT INTO livros (titulo, autor, categoria, status) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$titulo, $autor, $categoria, $status]);
 
         header('Location: index.php');
         exit;
     }
 }
 ?>
-        <form method="POST" action="editar.php">
+
+        <form method="POST" action="criar.php">
             <label for="titulo">Título</label>
             <input type="text" id="titulo" name="titulo" required>
 
@@ -57,6 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </main>
 
-    <script src="frontend/validacao.js"></script>
+    <script src="front/validacao.js"></script>
 </body>
 </html>
